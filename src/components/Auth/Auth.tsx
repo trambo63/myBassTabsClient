@@ -27,7 +27,7 @@ export default class Auth extends React.Component<AuthProps, State> {
         const form = this.state.login == true ? <SignIn updateToken={this.props.updateToken} /> : <SignUp updateToken={this.props.updateToken} />;
         return(
             <div>
-                <h1>Auth</h1>
+                <h3>Auth</h3>
                 {form}
                 <p onClick={this.toggle}>{text}</p>
             </div>

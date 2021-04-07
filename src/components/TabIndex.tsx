@@ -5,13 +5,15 @@ import Tabs from './Tabs/Tabs';
 
 export type TabIndexState = {
     sessionToken: string | null;
+    showAuth: boolean
 }
 
 export default class TabIndex extends React.Component<{}, TabIndexState> {
     constructor(props: {}){
         super(props)
         this.state ={
-            sessionToken: ""
+            sessionToken: "",
+            showAuth: false
         };
         this.updateToken = this.updateToken.bind(this);
         this.clearToken = this.clearToken.bind(this);
@@ -35,15 +37,36 @@ export default class TabIndex extends React.Component<{}, TabIndexState> {
     clearToken() {
         localStorage.clear();
         this.setSessionToken('');
+        this.setState({showAuth: false})
+    }
+
+    toggleAuth = () => {
+        this.setState({showAuth: !this.state.showAuth})
     }
 
     render(){
-        const protectedViews = this.state.sessionToken === localStorage.getItem('token') ? <Tabs clearToken={this.clearToken} /> : <Auth updateToken={this.updateToken} />
+        const protectedViews = this.state.sessionToken === localStorage.getItem('token') ? <></> : <p onClick={this.toggleAuth}>Login</p>
         return(
-            <div>
-                <h1>Tab Index</h1>
-                <Navbar />
-                {protectedViews}
+            <div className="tabIndexMain">
+                <div className="navbar">
+                    <span>My Bass Tabs</span>
+                    <div className="navSearch">
+                        <input type="text"/>
+                        <button>Search</button>
+                    </div>
+                    <div className="signInControlls">
+                        {protectedViews}
+                        {
+                            this.state.sessionToken === localStorage.getItem('token') ? <p onClick={this.clearToken}>Logout</p> : <></>
+                        }
+                    </div>
+                </div>
+                    {
+                        this.state.showAuth && this.state.sessionToken !== localStorage.getItem('token') ? <div>
+                        <Auth updateToken={this.updateToken} />
+                        </div> : <></>
+                    }
+                <Tabs sessionToken={this.state.sessionToken} />
             </div>
         )
     }

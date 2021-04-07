@@ -34,6 +34,7 @@ export default class SignUp extends React.Component<AuthProps, IUser> {
         .then((json) => {
             console.log(json);
             // props.this.updateToken(json.token)
+            this.props.updateToken(json.sessionToken)
         })
     }
 
