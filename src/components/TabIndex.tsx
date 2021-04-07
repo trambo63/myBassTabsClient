@@ -3,7 +3,7 @@ import Auth from './Auth/Auth';
 import Navbar from './Tabs/Navbar';
 import Tabs from './Tabs/Tabs';
 
-type TabIndexState = {
+export type TabIndexState = {
     sessionToken: string | null;
 }
 
@@ -27,9 +27,9 @@ export default class TabIndex extends React.Component<{}, TabIndexState> {
         }
     }
     
-    updateToken = (sessionToken: string) => {
-        localStorage.setItem('token', sessionToken);
-        this.setSessionToken(sessionToken)
+    updateToken = (newToken: string) => {
+        localStorage.setItem('token', newToken);
+        this.setSessionToken(newToken)
     }
 
     clearToken() {
@@ -38,7 +38,7 @@ export default class TabIndex extends React.Component<{}, TabIndexState> {
     }
 
     render(){
-        const protectedViews = !this.state.sessionToken ? <Auth updateToken={this.updateToken} /> : <Tabs clearToken={this.clearToken} />
+        const protectedViews = this.state.sessionToken === localStorage.getItem('token') ? <Tabs clearToken={this.clearToken} /> : <Auth updateToken={this.updateToken} />
         return(
             <div>
                 <h1>Tab Index</h1>
