@@ -1,7 +1,6 @@
 import React from 'react';
 import Auth from './Auth/Auth';
-import Navbar from './Tabs/Navbar';
-import Tabs from './Tabs/Tabs';
+import TabsMain from './Tabs/TabsMain'
 
 export type TabIndexState = {
     sessionToken: string | null;
@@ -66,7 +65,7 @@ export default class TabIndex extends React.Component<{}, TabIndexState> {
                         <Auth updateToken={this.updateToken} />
                         </div> : <></>
                     }
-                <Tabs sessionToken={this.state.sessionToken} />
+                <TabsMain sessionToken={this.state.sessionToken} />
             </div>
         )
     }
