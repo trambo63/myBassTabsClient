@@ -12,3 +12,10 @@ export interface ITabs {
     likes: number,
     dislikes: number
 }
+
+export interface IComments {
+    id: string,
+    comment: string,
+    tabId: string,
+    userId: string
+}
