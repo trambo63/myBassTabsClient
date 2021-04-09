@@ -5,7 +5,18 @@
 .tabIndexMain{
 }
 
-.displayTabs{
+#displayTabs{
+  /* background: black; */
+
+}
+
+#tab{
+  /* background: black; */
+  /* color: rgb(233, 218, 248); */
+  color: black;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .navbar{
@@ -14,16 +25,18 @@
   flex-direction: row;
   justify-content: space-between;
   height: 50px;
-  background-color: rgb(105, 33, 172);
+  background-color: rgb(41, 78, 180);
   padding: 0 20px;
 }
 
 .navbar span{
-  color: white
+  color: rgb(233, 218, 248);
+  font-weight: bold;
 }
 
 .signInControlls{
-  color: white;
+  color: rgb(233, 218, 248);
+  font-weight: bold;
   display: flex;
 }
 

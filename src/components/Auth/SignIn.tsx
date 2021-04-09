@@ -2,15 +2,13 @@ import React, { SyntheticEvent } from 'react';
 import { AuthProps } from './Auth';
 import {IUser} from '../Interfaces'
 
-
-
 export default class SignIn extends React.Component<AuthProps, IUser> {
     constructor(props: AuthProps) {
         super(props)
         this.state ={
             userName: "",
             email: "",
-            password: ""
+            password: "",
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);

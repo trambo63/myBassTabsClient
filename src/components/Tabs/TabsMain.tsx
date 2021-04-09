@@ -1,6 +1,4 @@
 import React from 'react';
-import { TabIndexState } from '../TabIndex';
-import { ListGroup, ListGroupItem } from 'reactstrap';
 import {ITabs} from '../Interfaces';
 import SingleTab from './SingleTab';
 import DisplayTabs from './DisplayTabs'
@@ -12,19 +10,22 @@ export type TabsMainProps = {
 export type TabsState = {
     singleTab: ITabs,
     tabs: ITabs[],
-    toggleSingleTab: boolean
+    toggleSingleTab: boolean,
+    sessionToken: string | null
 }
 
 export default class TabsMain extends React.Component<TabsMainProps, TabsState> {
     constructor(props: TabsMainProps){
         super(props)
         this.state = {
-            singleTab: {title: "", imgUrl: "", difficulty: "", likes: 0, dislikes: 0},
+            singleTab: {id: "", title: "", imgUrl: "", difficulty: "", likes: 0, dislikes: 0},
             tabs: [],
-            toggleSingleTab: false
+            toggleSingleTab: false,
+            sessionToken: this.props.sessionToken
         }
         this.toggleSingleTab = this.toggleSingleTab.bind(this);
         this.setSingleTab = this.setSingleTab.bind(this);
+        this.deleteTab = this.deleteTab.bind(this);
     }
 
     fetchTabs = () => {
@@ -38,6 +39,20 @@ export default class TabsMain extends React.Component<TabsMainProps, TabsState> 
         .then((json) => {
             console.log(json);
             this.setState({tabs: json.tabs})
+        })
+    }
+
+    deleteTab = (id: string) => {
+        let url: string = `http://localhost:4200/tab/${id}`
+        fetch(url, {
+            method: "DELETE",
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': `${this.state.sessionToken}`
+            })
+        }).then((res) => res.json())
+        .then((json) => {
+            console.log(json);
         })
     }
 
@@ -62,7 +77,7 @@ export default class TabsMain extends React.Component<TabsMainProps, TabsState> 
         return(
             <>
             {
-                this.state.toggleSingleTab ? <SingleTab singleTab={this.state.singleTab} /> : <DisplayTabs tabs={this.state.tabs} toggleSingleTab={this.toggleSingleTab} setSingleTab={this.setSingleTab} />
+                this.state.toggleSingleTab ? <SingleTab singleTab={this.state.singleTab} /> : <DisplayTabs tabs={this.state.tabs} toggleSingleTab={this.toggleSingleTab} setSingleTab={this.setSingleTab} deleteTab={this.deleteTab} sessionToken={this.props.sessionToken} />
             }
             </>
         )

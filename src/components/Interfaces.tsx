@@ -5,6 +5,7 @@ export interface IUser {
 }
 
 export interface ITabs {
+    id: string,
     title: string,
     imgUrl: string,
     difficulty: string,

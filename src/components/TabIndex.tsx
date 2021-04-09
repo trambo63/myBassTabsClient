@@ -1,10 +1,17 @@
 import React from 'react';
 import Auth from './Auth/Auth';
 import TabsMain from './Tabs/TabsMain'
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import TabCreate from './Tabs/TabCreate';
 
 export type TabIndexState = {
     sessionToken: string | null;
-    showAuth: boolean
+    showAuth: boolean;
+    open: boolean;
+    showCreate: boolean;
 }
 
 export default class TabIndex extends React.Component<{}, TabIndexState> {
@@ -12,10 +19,16 @@ export default class TabIndex extends React.Component<{}, TabIndexState> {
         super(props)
         this.state ={
             sessionToken: "",
-            showAuth: false
+            showAuth: false,
+            open: false,
+            showCreate: false
         };
         this.updateToken = this.updateToken.bind(this);
+        // this.handleClickOpen = this.handleClickOpen.bind(this);
+        // this.handleClose = this.handleClose.bind(this);
         this.clearToken = this.clearToken.bind(this);
+        this.toggleAuth = this.toggleAuth.bind(this);
+        this.toggleCreate = this.toggleCreate.bind(this);
     }
 
     setSessionToken = (token: string | null) => {
@@ -43,6 +56,11 @@ export default class TabIndex extends React.Component<{}, TabIndexState> {
         this.setState({showAuth: !this.state.showAuth})
     }
 
+    toggleCreate = () => {
+        this.setState({showCreate: !this.state.showCreate})
+    }
+
+
     render(){
         const protectedViews = this.state.sessionToken === localStorage.getItem('token') ? <></> : <p onClick={this.toggleAuth}>Login</p>
         return(
@@ -54,16 +72,42 @@ export default class TabIndex extends React.Component<{}, TabIndexState> {
                         <button>Search</button>
                     </div>
                     <div className="signInControlls">
+                        <p onClick={this.toggleCreate}>Create New</p>
+                        {
+                            this.state.showCreate ? 
+                            <Dialog open={this.state.showCreate} onClose={this.toggleCreate} aria-labelledby="form-dialog-title">
+                            <DialogContent>
+                                    <TabCreate sessionToken={this.state.sessionToken} />         
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={this.toggleCreate} color="primary">
+                                Cancel
+                                </Button>
+                            </DialogActions>
+                            </Dialog> :
+                            <></>
+                        }
+                    </div>
+                    <div className="signInControlls">
                         {protectedViews}
                         {
-                            this.state.sessionToken === localStorage.getItem('token') ? <p onClick={this.clearToken}>Logout</p> : <></>
+                            this.state.sessionToken === localStorage.getItem('token') ? <p color="primary" onClick={this.clearToken}>Logout</p> : <></>
                         }
                     </div>
                 </div>
                     {
-                        this.state.showAuth && this.state.sessionToken !== localStorage.getItem('token') ? <div>
-                        <Auth updateToken={this.updateToken} />
-                        </div> : <></>
+                        this.state.showAuth && this.state.sessionToken !== localStorage.getItem('token') ?
+                            <Dialog open={this.state.showAuth} onClose={this.toggleAuth} aria-labelledby="form-dialog-title">
+                              <DialogContent>
+                                    <Auth updateToken={this.updateToken} />         
+                              </DialogContent>
+                              <DialogActions>
+                                <Button onClick={this.toggleAuth} color="primary">
+                                  Cancel
+                                </Button>
+                              </DialogActions>
+                            </Dialog>
+                        : <></>
                     }
                 <TabsMain sessionToken={this.state.sessionToken} />
             </div>
