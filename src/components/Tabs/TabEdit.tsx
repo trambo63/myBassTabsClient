@@ -22,9 +22,9 @@ export default class TabCreate extends React.Component<TabEditProps, ITabs> {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    handleSubmit(e: SyntheticEvent, id: string) {
+    handleSubmit(e: SyntheticEvent) {
         e.preventDefault();
-        let url: string = `http://localhost:4200/tab/${id}`
+        let url: string = `http://localhost:4200/tab/${this.state.id}`
         let reqBody = {
             title: this.state.title,
             imgUrl: this.state.imgUrl,
@@ -60,7 +60,7 @@ export default class TabCreate extends React.Component<TabEditProps, ITabs> {
             <div>
                 <h2>Edit Tab</h2>
                 <p>{this.state.likes} | {this.state.dislikes}</p>
-                <form>
+                <form onSubmit={(e) => this.handleSubmit(e)}>
                 <label htmlFor='Title'>Title:</label>
                 <br />
                 <input type='text' id='title' name='title' value={this.state.title} onChange={this.handleChange} /> 

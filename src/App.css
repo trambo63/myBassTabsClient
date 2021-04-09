@@ -19,6 +19,14 @@
   width: 100%;
 }
 
+#commentsDispaly{
+}
+
+#commentsDispalyList{
+  display: flex;
+  justify-content: space-between;
+}
+
 .navbar{
   display: flex;
   align-items: center;

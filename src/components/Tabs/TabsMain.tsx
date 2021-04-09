@@ -10,8 +10,7 @@ export type TabsMainProps = {
 export type TabsState = {
     singleTab: ITabs,
     tabs: ITabs[],
-    toggleSingleTab: boolean,
-    sessionToken: string | null
+    toggleSingleTab: boolean
 }
 
 export default class TabsMain extends React.Component<TabsMainProps, TabsState> {
@@ -21,7 +20,6 @@ export default class TabsMain extends React.Component<TabsMainProps, TabsState> 
             singleTab: {id: "", title: "", imgUrl: "", difficulty: "", likes: 0, dislikes: 0},
             tabs: [],
             toggleSingleTab: false,
-            sessionToken: this.props.sessionToken
         }
         this.toggleSingleTab = this.toggleSingleTab.bind(this);
         this.setSingleTab = this.setSingleTab.bind(this);
@@ -48,7 +46,7 @@ export default class TabsMain extends React.Component<TabsMainProps, TabsState> 
             method: "DELETE",
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Authorization': `${this.state.sessionToken}`
+                'Authorization': `${this.props.sessionToken}`
             })
         }).then((res) => res.json())
         .then((json) => {
@@ -73,11 +71,12 @@ export default class TabsMain extends React.Component<TabsMainProps, TabsState> 
     }
     
     render() {
+        console.log(this.props.sessionToken)
         console.log(this.state.singleTab)
         return(
             <>
             {
-                this.state.toggleSingleTab ? <SingleTab singleTab={this.state.singleTab} /> : <DisplayTabs tabs={this.state.tabs} toggleSingleTab={this.toggleSingleTab} setSingleTab={this.setSingleTab} deleteTab={this.deleteTab} sessionToken={this.props.sessionToken} />
+                this.state.toggleSingleTab ? <SingleTab sessionToken={this.props.sessionToken} deleteTab={this.deleteTab} singleTab={this.state.singleTab} /> : <DisplayTabs tabs={this.state.tabs} toggleSingleTab={this.toggleSingleTab} setSingleTab={this.setSingleTab} deleteTab={this.deleteTab} sessionToken={this.props.sessionToken} />
             }
             </>
         )
