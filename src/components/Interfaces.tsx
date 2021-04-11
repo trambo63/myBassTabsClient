@@ -7,7 +7,7 @@ export interface IUser {
 export interface ITabs {
     id: string,
     title: string,
-    imgUrl: string,
+    img: FileList | null,
     difficulty: string,
     likes: number,
     dislikes: number

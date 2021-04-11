@@ -28,12 +28,12 @@ export default class DisplayTab extends React.Component<DisplayProps, DisplayTab
         return(
         <div id='displayTabs'>
             {
-                this.props.tabs.map((tab) => {
+                this.props.tabs.map((tab, index) => {
                     return(
                         <div id='tab'>
                             <ListGroup id='tab'>
-                                <ListGroupItem id='tab'>
-                                    <div  onClick={() => {this.props.toggleSingleTab(); this.props.setSingleTab(tab)}}>
+                                <ListGroupItem id='tab' key={index}>
+                                    <div onClick={() => {this.props.toggleSingleTab(); this.props.setSingleTab(tab)}}>
                                         <div>Title: {tab.title} Difficulty: {tab.difficulty}</div>
                                         <div>Likes: {tab.likes} Dislikes: {tab.dislikes}</div>
                                     </div>

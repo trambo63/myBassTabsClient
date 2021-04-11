@@ -24,8 +24,6 @@ export default class TabIndex extends React.Component<{}, TabIndexState> {
             showCreate: false
         };
         this.updateToken = this.updateToken.bind(this);
-        // this.handleClickOpen = this.handleClickOpen.bind(this);
-        // this.handleClose = this.handleClose.bind(this);
         this.clearToken = this.clearToken.bind(this);
         this.toggleAuth = this.toggleAuth.bind(this);
         this.toggleCreate = this.toggleCreate.bind(this);

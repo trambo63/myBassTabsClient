@@ -13,7 +13,7 @@ export default class TabCreate extends React.Component<TabEditProps, ITabs> {
         this.state = {
             id: this.props.tab.id,
             title: this.props.tab.title,
-            imgUrl: this.props.tab.imgUrl,
+            img: this.props.tab.img,
             difficulty: this.props.tab.difficulty,
             likes: 0,
             dislikes: 0
@@ -27,7 +27,7 @@ export default class TabCreate extends React.Component<TabEditProps, ITabs> {
         let url: string = `http://localhost:4200/tab/${this.state.id}`
         let reqBody = {
             title: this.state.title,
-            imgUrl: this.state.imgUrl,
+            imgUrl: this.state.img,
             difficulty: this.state.difficulty
         }
         fetch(url, {
@@ -71,7 +71,7 @@ export default class TabCreate extends React.Component<TabEditProps, ITabs> {
                 <br />
                 <label htmlFor="imgUrl">Tab:</label>
                 <br />
-                <input type='text' id='imgUrl' name='imgUrl' value={this.state.imgUrl} onChange={this.handleChange} />
+                <input type='text' id='imgUrl' name='imgUrl' onChange={this.handleChange} />
                 <br />
                 <button type='submit'>Submit</button>
                 </form>

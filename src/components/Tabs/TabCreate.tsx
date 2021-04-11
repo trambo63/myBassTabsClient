@@ -11,34 +11,43 @@ export default class TabCreate extends React.Component<TabCreateProps, ITabs> {
         this.state = {
             id: "",
             title: "",
-            imgUrl: "",
+            img: null,
             difficulty: "",
             likes: 0,
             dislikes: 0
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.fileOnChange = this.fileOnChange.bind(this);
     }
 
     handleSubmit(e: SyntheticEvent) {
-        e.preventDefault();
-        let url: string = 'http://localhost:4200/tab/postTab'
-        let reqBody = {
-            title: this.state.title,
-            imgUrl: this.state.imgUrl,
-            difficulty: this.state.difficulty
-        }
-        fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(reqBody),
-            headers: new Headers({
-                'Content-Type': 'application/json',
-                'Authorization': `${this.props.sessionToken}`
+        if (this.state.img){
+            console.log(this.state.img)
+            console.log(this.state.title)
+            console.log(this.state.difficulty)
+            e.preventDefault();
+            let url: string = 'http://localhost:4200/tab/postTab'
+            let formData = new FormData();
+            formData.append("image", this.state.img.item.name)
+            formData.append("title", this.state.title)
+            formData.append("difficulty", this.state.difficulty)
+            // {
+            //     title: this.state.title,
+            //     difficulty: this.state.difficulty
+            // }
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                    'Authorization': `${this.props.sessionToken}`
+                })
+            }).then((res) => res.json())
+            .then((json) => {
+                console.log(json);
             })
-        }).then((res) => res.json())
-        .then((json) => {
-            console.log(json);
-        })
+        }
     }
 
     handleChange(e: SyntheticEvent) {
@@ -51,6 +60,10 @@ export default class TabCreate extends React.Component<TabCreateProps, ITabs> {
             }
             return pick
         })
+    }
+
+    fileOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+        this.setState({img: e.currentTarget.files})
     }
 
     render() {
@@ -68,7 +81,7 @@ export default class TabCreate extends React.Component<TabCreateProps, ITabs> {
                 <br />
                 <label htmlFor="imgUrl">Tab:</label>
                 <br />
-                <input type='file' id='imgUrl' name='imgUrl' value={this.state.imgUrl} onChange={this.handleChange} />
+                <input type='file' id='imgUrl' name='imgUrl' onChange={this.fileOnChange} />
                 <br />
                 <button type='submit'>Submit</button>
                 </form>

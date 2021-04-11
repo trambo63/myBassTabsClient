@@ -17,7 +17,7 @@ export default class TabsMain extends React.Component<TabsMainProps, TabsState> 
     constructor(props: TabsMainProps){
         super(props)
         this.state = {
-            singleTab: {id: "", title: "", imgUrl: "", difficulty: "", likes: 0, dislikes: 0},
+            singleTab: {id: "", title: "", img: null, difficulty: "", likes: 0, dislikes: 0},
             tabs: [],
             toggleSingleTab: false,
         }
