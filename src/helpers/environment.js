@@ -1,6 +1,6 @@
 let APIURL = '';
 
-switch (window.locate.hostname) {
+switch (window.location.hostname) {
     case 'localhost' || '127.0.0.1':
         APIURL = 'https://localhost:4200';
         break;
