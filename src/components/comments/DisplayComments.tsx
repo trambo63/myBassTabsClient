@@ -7,6 +7,9 @@ import {
   import {IUser} from '../Interfaces'
 
 import CommentEdit from './CommentEdit'
+import { AccessControl } from 'accesscontrol';
+import APIURL from '../../helpers/environment';
+
 
 export type DisplayProps = {
     tabId: string;
@@ -29,7 +32,7 @@ export default class DisplayTabs extends React.Component<DisplayProps, DisplaySt
         this.fetchComments()
     }
     fetchComments = () => {
-        let url: string = `http://localhost:4200/comment/${this.props.tabId}`
+        let url: string = `${APIURL}/comment/${this.props.tabId}`
         fetch(url, {
             method: 'GET',
             headers: new Headers({
@@ -48,7 +51,7 @@ export default class DisplayTabs extends React.Component<DisplayProps, DisplaySt
 
     deleteComment = (id: string, sessionToken: string | null) => {
         console.log(this.props.sessionToken);
-        let commentUrl: string = `http://localhost:4200/comment/${id}`
+        let commentUrl: string = `${APIURL}/comment/${id}`
         fetch(commentUrl, {
             method: "DELETE",
             headers: new Headers({
@@ -77,7 +80,7 @@ export default class DisplayTabs extends React.Component<DisplayProps, DisplaySt
                                         </div>
                                         <div>
                                         {
-                                            this.props.sessionToken ? 
+                                            localStorage.getItem("userId") === comment.userId ? 
                                             <>
                                                 <div onClick={() => this.deleteComment(comment.id, this.props.sessionToken)}>Delete</div>
                                                 <CommentEdit sessionToken={this.props.sessionToken} comment={comment.comment} commentId={comment.id} tabId={comment.tabId}  fetchComments={this.fetchComments}/>         

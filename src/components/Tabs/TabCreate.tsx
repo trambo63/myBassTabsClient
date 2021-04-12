@@ -1,5 +1,6 @@
 import React, { SyntheticEvent } from 'react';
 import {ITabs} from '../Interfaces'
+import APIURL from '../../helpers/environment'
 
 export type TabCreateProps = {
     sessionToken: string | null
@@ -11,7 +12,7 @@ export default class TabCreate extends React.Component<TabCreateProps, ITabs> {
         this.state = {
             id: "",
             title: "",
-            img: null,
+            img: "",
             difficulty: "",
             likes: 0,
             dislikes: 0
@@ -22,32 +23,29 @@ export default class TabCreate extends React.Component<TabCreateProps, ITabs> {
     }
 
     handleSubmit(e: SyntheticEvent) {
-        if (this.state.img){
-            console.log(this.state.img)
-            console.log(this.state.title)
-            console.log(this.state.difficulty)
-            e.preventDefault();
-            let url: string = 'http://localhost:4200/tab/postTab'
-            let formData = new FormData();
-            formData.append("image", this.state.img.item.name)
-            formData.append("title", this.state.title)
-            formData.append("difficulty", this.state.difficulty)
-            // {
-            //     title: this.state.title,
-            //     difficulty: this.state.difficulty
-            // }
-            fetch(url, {
-                method: 'POST',
-                body: formData,
-                headers: new Headers({
-                    'Content-Type': 'application/json',
-                    'Authorization': `${this.props.sessionToken}`
-                })
-            }).then((res) => res.json())
-            .then((json) => {
-                console.log(json);
-            })
+        e.preventDefault();
+        let url: string = `${APIURL}/tab/postTab`
+        // let formData = new FormData();
+        // formData.append("image", this.state.img);
+        // formData.append("title", `${this.state.title}`);
+        // formData.append("difficulty", `${this.state.difficulty}`);
+        // console.log(formData.getAll("image"));
+        let reqBody = {
+            "title": this.state.title,
+            "difficulty": this.state.difficulty 
         }
+        fetch(url, {
+            method: 'POST',
+            // body: formData,
+            body: JSON.stringify(reqBody), 
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': `${this.props.sessionToken}`
+            })
+        }).then((res) => res.json())
+        .then((json) => {
+            console.log(json);
+        })
     }
 
     handleChange(e: SyntheticEvent) {
@@ -63,10 +61,14 @@ export default class TabCreate extends React.Component<TabCreateProps, ITabs> {
     }
 
     fileOnChange(e: React.ChangeEvent<HTMLInputElement>) {
-        this.setState({img: e.currentTarget.files})
+        if (!e.target.files){
+            return
+        }
+        this.setState({img: e.target.files[0]})
     }
-
+    
     render() {
+        console.log(this.state.img);
         return(
             <div>
                 <h2>Create New Tab</h2>

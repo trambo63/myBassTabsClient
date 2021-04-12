@@ -1,3 +1,5 @@
+import { Method } from "@testing-library/dom";
+
 export interface IUser {
     userName: string;
     email?: string;
@@ -7,11 +9,22 @@ export interface IUser {
 export interface ITabs {
     id: string,
     title: string,
-    img: FileList | null,
+    img: string | Blob,
     difficulty: string,
     likes: number,
     dislikes: number
 }
+
+// export interface Img {
+//     size: number,
+//     type: string,
+//     name: string,
+//     arrayBuffer: Method,
+//     slice: string,
+//     stream: string,
+//     text: string
+
+// }
 
 export interface IComments {
     id: string,

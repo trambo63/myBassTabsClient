@@ -1,5 +1,6 @@
 import React, { SyntheticEvent } from 'react';
 import {ITabs} from '../Interfaces'
+import APIURL from '../../helpers/environment'
 
 export type TabEditProps = {
     sessionToken: string | null,
@@ -24,10 +25,10 @@ export default class TabCreate extends React.Component<TabEditProps, ITabs> {
 
     handleSubmit(e: SyntheticEvent) {
         e.preventDefault();
-        let url: string = `http://localhost:4200/tab/${this.state.id}`
+        let url: string = `${APIURL}/tab/${this.state.id}`
         let reqBody = {
             title: this.state.title,
-            imgUrl: this.state.img,
+            // imgUrl: this.state.img,
             difficulty: this.state.difficulty
         }
         fetch(url, {

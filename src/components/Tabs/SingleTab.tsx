@@ -6,7 +6,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import TabEdit from './TabEdit';
-import CommentCreate from '../comments/CommentCreate'
+import CommentCreate from '../comments/CommentCreate';
+import APIURL from '../../helpers/environment';
 
 interface SingleProps{
     singleTab: ITabs
@@ -31,7 +32,7 @@ export default class SingleTab extends React.Component<SingleProps, SingleTabSta
 
     createCommet = () => {
         console.log(this.props.sessionToken);
-        let createUrl: string = `http://localhost:4200/comment/postComment`;
+        let createUrl: string = `${APIURL}/comment/postComment`;
         fetch(createUrl, {
             method: "PUT",
             headers: new Headers({
@@ -57,7 +58,9 @@ export default class SingleTab extends React.Component<SingleProps, SingleTabSta
                     <h2>{this.props.singleTab.title}</h2>
                 </div>
                 <div>
-                    <div onClick={this.toggleEdit}>edit</div>
+                    {
+                        <div onClick={this.toggleEdit}>edit</div>
+                    }
                         {
                             this.state.showEdit ? 
                             <Dialog open={this.state.showEdit} onClose={this.toggleEdit} aria-labelledby="form-dialog-title">
