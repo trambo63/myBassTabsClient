@@ -1,6 +1,7 @@
 import React, { SyntheticEvent } from 'react';
 import { AuthProps } from './Auth';
-import {IUser} from '../Interfaces'
+import {IUser} from '../Interfaces';
+import APIURL from '../../helpers/environment';
 
 export default class SignIn extends React.Component<AuthProps, IUser> {
     constructor(props: AuthProps) {
@@ -16,7 +17,7 @@ export default class SignIn extends React.Component<AuthProps, IUser> {
 
     handleSubmit(e: SyntheticEvent) {
         e.preventDefault();
-        let url: string = 'http://localhost:4200/user/login'
+        let url: string = `${APIURL}/user/login`
         let reqBody = {
             user: {
                 userName: this.state.userName,
@@ -34,6 +35,7 @@ export default class SignIn extends React.Component<AuthProps, IUser> {
             console.log(json);
             // props.this.updateToken(json.token)
             this.props.updateToken(json.sessionToken)
+            localStorage.setItem('userId', json.user.id);
         })
     }
 
