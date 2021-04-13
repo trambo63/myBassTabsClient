@@ -12,7 +12,7 @@ export default class TabCreate extends React.Component<TabCreateProps, ITabs> {
         this.state = {
             id: "",
             title: "",
-            img: "",
+            imgUrl: "",
             difficulty: "",
             likes: 0,
             dislikes: 0
@@ -25,21 +25,21 @@ export default class TabCreate extends React.Component<TabCreateProps, ITabs> {
     handleSubmit(e: SyntheticEvent) {
         e.preventDefault();
         let url: string = `${APIURL}/tab/postTab`
-        // let formData = new FormData();
-        // formData.append("image", this.state.img);
-        // formData.append("title", `${this.state.title}`);
-        // formData.append("difficulty", `${this.state.difficulty}`);
-        // console.log(formData.getAll("image"));
-        let reqBody = {
-            "title": this.state.title,
-            "difficulty": this.state.difficulty 
-        }
+        let formData = new FormData();
+        formData.append("image", this.state.imgUrl);
+        formData.append("title", `${this.state.title}`);
+        formData.append("difficulty", `${this.state.difficulty}`);
+        console.log(formData.getAll("image"));
+        // let reqBody = {
+        //     "title": this.state.title,
+        //     "difficulty": this.state.difficulty 
+        // }
         fetch(url, {
             method: 'POST',
-            // body: formData,
-            body: JSON.stringify(reqBody), 
+            body: formData,
+            // body: JSON.stringify(reqBody), 
             headers: new Headers({
-                'Content-Type': 'application/json',
+                // 'Content-Type': 'application/json',
                 'Authorization': `${this.props.sessionToken}`
             })
         }).then((res) => res.json())
@@ -64,11 +64,11 @@ export default class TabCreate extends React.Component<TabCreateProps, ITabs> {
         if (!e.target.files){
             return
         }
-        this.setState({img: e.target.files[0]})
+        this.setState({imgUrl: e.target.files[0]})
     }
     
     render() {
-        console.log(this.state.img);
+        console.log(this.state.imgUrl);
         return(
             <div>
                 <h2>Create New Tab</h2>

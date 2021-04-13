@@ -4,22 +4,24 @@ import SingleTab from './SingleTab';
 import DisplayTabs from './DisplayTabs'
 import APIURL from '../../helpers/environment';
 
-
 export type TabsMainProps = {
-    sessionToken: string | null
+    sessionToken: string | null;
+    searchTerm: string;
+    searchTab: boolean;
+    toggleSearchTab: () => void;
 }
 
 export type TabsState = {
     singleTab: ITabs,
     tabs: ITabs[],
-    toggleSingleTab: boolean
+    toggleSingleTab: boolean,
 }
 
 export default class TabsMain extends React.Component<TabsMainProps, TabsState> {
     constructor(props: TabsMainProps){
         super(props)
         this.state = {
-            singleTab: {id: "", title: "", img: "", difficulty: "", likes: 0, dislikes: 0},
+            singleTab: {id: "", title: "", imgUrl: "", difficulty: "", likes: 0, dislikes: 0},
             tabs: [],
             toggleSingleTab: false,
         }
@@ -56,8 +58,32 @@ export default class TabsMain extends React.Component<TabsMainProps, TabsState> 
         })
     }
 
+    fetchTab = () => {
+        console.log('fetchtab')
+        let url: string = `${APIURL}/tab/${this.props.searchTerm}` 
+        fetch(url, {
+            method: "GET",
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        }).then((res) => res.json())
+        .then((json) => {
+            console.log(json);
+            this.setSingleTab(json.tab[0])
+            this.toggleSingleTab()
+            this.props.toggleSearchTab()
+        })
+    }
+
     componentDidMount = () => {
-        this.fetchTabs()
+        this.fetchTabs() 
+    }
+    
+    componentDidUpdate = () => {
+        console.log('update' + this.props.searchTab)
+        if (this.props.searchTab) {
+            this.fetchTab()
+        }
     }
 
     toggleSingleTab = () => {

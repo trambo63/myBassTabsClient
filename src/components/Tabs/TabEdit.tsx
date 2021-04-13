@@ -14,28 +14,28 @@ export default class TabCreate extends React.Component<TabEditProps, ITabs> {
         this.state = {
             id: this.props.tab.id,
             title: this.props.tab.title,
-            img: this.props.tab.img,
+            imgUrl: this.props.tab.imgUrl,
             difficulty: this.props.tab.difficulty,
             likes: 0,
             dislikes: 0
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.fileOnChange = this.fileOnChange.bind(this);
     }
 
     handleSubmit(e: SyntheticEvent) {
         e.preventDefault();
         let url: string = `${APIURL}/tab/${this.state.id}`
-        let reqBody = {
-            title: this.state.title,
-            // imgUrl: this.state.img,
-            difficulty: this.state.difficulty
-        }
+        let formData = new FormData();
+        formData.append("image", this.state.imgUrl);
+        formData.append("title", `${this.state.title}`);
+        formData.append("difficulty", `${this.state.difficulty}`);
+        console.log(formData.getAll("image"));
         fetch(url, {
             method: 'PUT',
-            body: JSON.stringify(reqBody),
+            body: formData,
             headers: new Headers({
-                'Content-Type': 'application/json',
                 'Authorization': `${this.props.sessionToken}`
             })
         }).then((res) => res.json())
@@ -56,6 +56,13 @@ export default class TabCreate extends React.Component<TabEditProps, ITabs> {
         })
     }
 
+    fileOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+        if (!e.target.files){
+            return
+        }
+        this.setState({imgUrl: e.target.files[0]})
+    }
+
     render() {
         return(
             <div>
@@ -72,7 +79,7 @@ export default class TabCreate extends React.Component<TabEditProps, ITabs> {
                 <br />
                 <label htmlFor="imgUrl">Tab:</label>
                 <br />
-                <input type='text' id='imgUrl' name='imgUrl' onChange={this.handleChange} />
+                <input type='file' id='imgUrl' name='imgUrl' onChange={this.fileOnChange} />
                 <br />
                 <button type='submit'>Submit</button>
                 </form>

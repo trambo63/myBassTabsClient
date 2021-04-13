@@ -52,10 +52,12 @@ export default class SingleTab extends React.Component<SingleProps, SingleTabSta
     }
 
     render(){
+        console.log(this.props.singleTab)
         return(
             <div>
                 <div className="singleTab">
                     <h2>{this.props.singleTab.title}</h2>
+                    <img src={`${APIURL}/static/${this.props.singleTab.imgUrl}`} />
                 </div>
                 <div>
                     {

@@ -1,4 +1,3 @@
-import React from 'react';
 import Auth from './Auth/Auth';
 import TabsMain from './Tabs/TabsMain'
 import Button from '@material-ui/core/Button';
@@ -6,12 +5,16 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import TabCreate from './Tabs/TabCreate';
+import {ISearchTerm} from './Interfaces';
+import React, { SyntheticEvent } from 'react';
 
 export type TabIndexState = {
     sessionToken: string | null;
     showAuth: boolean;
     open: boolean;
     showCreate: boolean;
+    searchTerm: string;
+    searchTab: boolean;
 }
 
 export default class TabIndex extends React.Component<{}, TabIndexState> {
@@ -21,12 +24,17 @@ export default class TabIndex extends React.Component<{}, TabIndexState> {
             sessionToken: "",
             showAuth: false,
             open: false,
-            showCreate: false
+            showCreate: false,
+            searchTerm: "",
+            searchTab: false
         };
         this.updateToken = this.updateToken.bind(this);
         this.clearToken = this.clearToken.bind(this);
         this.toggleAuth = this.toggleAuth.bind(this);
         this.toggleCreate = this.toggleCreate.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.toggleSearchTab = this.toggleSearchTab.bind(this);
     }
 
     setSessionToken = (token: string | null) => {
@@ -58,17 +66,41 @@ export default class TabIndex extends React.Component<{}, TabIndexState> {
         this.setState({showCreate: !this.state.showCreate})
     }
 
+    handleSubmit = (e: SyntheticEvent) => {
+        e.preventDefault()
+        console.log(this.state.searchTerm);
+        this.setState({searchTab: !this.state.searchTab})
+    }
+
+    toggleSearchTab = () => {
+        this.setState({searchTab: false})
+    }
+
+    handleChange(e: SyntheticEvent) {
+        const input = e.target as HTMLInputElement;
+        console.log(input.name, input.value);
+        this.setState((prevState: ISearchTerm) => {
+            let pick: Pick<ISearchTerm, keyof ISearchTerm> = {
+                ...prevState,
+                [input.name]: input.value
+            }
+            return pick
+        })
+    }
 
     render(){
+        console.log(this.state.searchTab)
         const protectedViews = this.state.sessionToken === localStorage.getItem('token') ? <></> : <p onClick={this.toggleAuth}>Login</p>
         return(
             <div className="tabIndexMain">
                 <div className="navbar">
                     <span>My Bass Tabs</span>
-                    <div className="navSearch">
-                        <input type="text"/>
-                        <button>Search</button>
-                    </div>
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="navSearch">
+                            <input type="text" id="searchTerms" name="searchTerm" value={this.state.searchTerm} onChange={this.handleChange} />
+                            <button type="submit">Search</button>
+                        </div>
+                    </form>
                     <div className="signInControlls">
                         <p onClick={this.toggleCreate}>Create New</p>
                         {
@@ -107,7 +139,7 @@ export default class TabIndex extends React.Component<{}, TabIndexState> {
                             </Dialog>
                         : <></>
                     }
-                <TabsMain sessionToken={this.state.sessionToken} />
+                <TabsMain toggleSearchTab={this.toggleSearchTab} sessionToken={this.state.sessionToken} searchTerm={this.state.searchTerm} searchTab={this.state.searchTab} />
             </div>
         )
     }

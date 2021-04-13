@@ -1,5 +1,3 @@
-import { Method } from "@testing-library/dom";
-
 export interface IUser {
     userName: string;
     email?: string;
@@ -9,7 +7,7 @@ export interface IUser {
 export interface ITabs {
     id: string,
     title: string,
-    img: string | Blob,
+    imgUrl: string | Blob,
     difficulty: string,
     likes: number,
     dislikes: number
@@ -31,4 +29,8 @@ export interface IComments {
     comment: string,
     tabId: string,
     userId: string
+}
+
+export interface ISearchTerm {
+    searchTerm: string
 }
