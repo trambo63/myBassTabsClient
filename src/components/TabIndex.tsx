@@ -102,7 +102,9 @@ export default class TabIndex extends React.Component<{}, TabIndexState> {
                         </div>
                     </form>
                     <div className="signInControlls">
-                        <p onClick={this.toggleCreate}>Create New</p>
+                        {
+                            this.state.sessionToken ? <p onClick={this.toggleCreate}>Create New</p> : <></>
+                        }
                         {
                             this.state.showCreate ? 
                             <Dialog open={this.state.showCreate} onClose={this.toggleCreate} aria-labelledby="form-dialog-title">

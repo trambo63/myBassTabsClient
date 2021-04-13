@@ -10,7 +10,8 @@ export interface ITabs {
     imgUrl: string | Blob,
     difficulty: string,
     likes: number,
-    dislikes: number
+    dislikes: number,
+    userId: string
 }
 
 // export interface Img {

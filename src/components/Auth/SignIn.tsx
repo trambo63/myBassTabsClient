@@ -36,6 +36,9 @@ export default class SignIn extends React.Component<AuthProps, IUser> {
             // props.this.updateToken(json.token)
             this.props.updateToken(json.sessionToken)
             localStorage.setItem('userId', json.user.id);
+            localStorage.setItem('role', json.user.role);
+            window.location.reload();
+
         })
     }
 

@@ -29,7 +29,7 @@ export default class DisplayTabs extends React.Component<DisplayProps, DisplaySt
         this.fetchComments = this.fetchComments.bind(this);
     }
     componentDidMount() {
-        this.fetchComments()
+            this.fetchComments()
     }
     fetchComments = () => {
         let url: string = `${APIURL}/comment/${this.props.tabId}`
@@ -63,7 +63,9 @@ export default class DisplayTabs extends React.Component<DisplayProps, DisplaySt
         .then(this.fetchComments)
     }
 
-
+    componentDidUpdate = () => {
+        console.log('update')
+    }
 
     render(){
         console.log(this.props.sessionToken)

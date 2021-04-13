@@ -17,26 +17,34 @@ export default class SignUp extends React.Component<AuthProps, IUser> {
 
     handleSubmit(e: SyntheticEvent) {
         e.preventDefault();
-        let url: string = `${APIURL}/user/register`
-        let reqBody = {
-            user: {
-                userName: this.state.userName,
-                email: this.state.email,
-                password: this.state.password
+        if (this.state.password.length < 5) {
+            alert('require more than 5 charaters')
+        } else {
+            let url: string = `${APIURL}/user/register`
+            let reqBody = {
+                user: {
+                    userName: this.state.userName,
+                    email: this.state.email,
+                    password: this.state.password
+                }
             }
-        }
-        fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(reqBody),
-            headers: new Headers({
-                'Content-Type': 'application/json'
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(reqBody),
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            }).then((res) => res.json())
+            .then((json) => {
+                console.log(json);
+                // props.this.updateToken(json.token)
+                this.props.updateToken(json.sessionToken)
+                localStorage.setItem('userId', json.user.id);
+                localStorage.setItem('role', json.user.role);
+                window.location.reload();
+
             })
-        }).then((res) => res.json())
-        .then((json) => {
-            console.log(json);
-            // props.this.updateToken(json.token)
-            this.props.updateToken(json.sessionToken)
-        })
+        }
     }
 
     handleChange(e: SyntheticEvent) {
@@ -62,7 +70,7 @@ export default class SignUp extends React.Component<AuthProps, IUser> {
                 <br />
                 <label htmlFor='email'>email:</label>
                 <br />
-                <input type='text' id='email' name='email' value={this.state.email} onChange={this.handleChange} /> 
+                <input type='email' id='email' name='email' value={this.state.email} onChange={this.handleChange} /> 
                 <br />
                 <label htmlFor='password'>password:</label>
                 <br />

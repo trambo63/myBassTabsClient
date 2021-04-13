@@ -5,6 +5,8 @@ import APIURL from '../../helpers/environment'
 export type TabEditProps = {
     sessionToken: string | null,
     tab: ITabs
+    toggleEdit: () => void;
+    fetchTabs: () => void;
 }
 
 
@@ -17,7 +19,8 @@ export default class TabCreate extends React.Component<TabEditProps, ITabs> {
             imgUrl: this.props.tab.imgUrl,
             difficulty: this.props.tab.difficulty,
             likes: 0,
-            dislikes: 0
+            dislikes: 0,
+            userId: ""
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -41,6 +44,7 @@ export default class TabCreate extends React.Component<TabEditProps, ITabs> {
         }).then((res) => res.json())
         .then((json) => {
             console.log(json);
+            this.props.toggleEdit()
         })
     }
 

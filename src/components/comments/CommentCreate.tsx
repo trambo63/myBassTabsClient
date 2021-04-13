@@ -4,6 +4,7 @@ import {IComments} from '../Interfaces'
 export type CommentCreateProps = {
     sessionToken: string | null
     tabId: string
+    toggleCreate: () => void;
 }
 
 export default class CommentCreate extends React.Component<CommentCreateProps, IComments> {
@@ -39,6 +40,7 @@ export default class CommentCreate extends React.Component<CommentCreateProps, I
         }).then((res) => res.json())
         .then((json) => {
             console.log(json);
+            this.props.toggleCreate()
         })
     }
 

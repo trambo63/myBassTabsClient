@@ -21,7 +21,7 @@ export default class TabsMain extends React.Component<TabsMainProps, TabsState> 
     constructor(props: TabsMainProps){
         super(props)
         this.state = {
-            singleTab: {id: "", title: "", imgUrl: "", difficulty: "", likes: 0, dislikes: 0},
+            singleTab: {id: "", title: "", imgUrl: "", difficulty: "", likes: 0, dislikes: 0, userId: ""},
             tabs: [],
             toggleSingleTab: false,
         }
@@ -55,6 +55,7 @@ export default class TabsMain extends React.Component<TabsMainProps, TabsState> 
         }).then((res) => res.json())
         .then((json) => {
             console.log(json);
+            this.fetchTabs();
         })
     }
 
@@ -104,7 +105,7 @@ export default class TabsMain extends React.Component<TabsMainProps, TabsState> 
         return(
             <>
             {
-                this.state.toggleSingleTab ? <SingleTab sessionToken={this.props.sessionToken} deleteTab={this.deleteTab} singleTab={this.state.singleTab} /> : <DisplayTabs tabs={this.state.tabs} toggleSingleTab={this.toggleSingleTab} setSingleTab={this.setSingleTab} deleteTab={this.deleteTab} sessionToken={this.props.sessionToken} />
+                this.state.toggleSingleTab ? <SingleTab fetchTabs={this.fetchTabs} sessionToken={this.props.sessionToken} deleteTab={this.deleteTab} singleTab={this.state.singleTab} /> : <DisplayTabs fetchTabs={this.fetchTabs} tabs={this.state.tabs} toggleSingleTab={this.toggleSingleTab} setSingleTab={this.setSingleTab} deleteTab={this.deleteTab} sessionToken={this.props.sessionToken} />
             }
             </>
         )

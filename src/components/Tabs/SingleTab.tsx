@@ -10,9 +10,10 @@ import CommentCreate from '../comments/CommentCreate';
 import APIURL from '../../helpers/environment';
 
 interface SingleProps{
-    singleTab: ITabs
-    sessionToken: string | null
+    singleTab: ITabs;
+    sessionToken: string | null;
     deleteTab: (id: string) => void;
+    fetchTabs: () => void;
 }
 
 export type SingleTabState = {
@@ -25,7 +26,7 @@ export default class SingleTab extends React.Component<SingleProps, SingleTabSta
         super(props)
         this.state = {
             showEdit: false,
-            showCreate: false
+            showCreate: false,
         }
         this.toggleCreate = this.toggleCreate.bind(this);
     }
@@ -40,7 +41,9 @@ export default class SingleTab extends React.Component<SingleProps, SingleTabSta
                 'Authorization': `${this.props.sessionToken}`
             })
         }).then((res) => res.json())
-        .then((json) => console.log(json))
+        .then((json) => {
+            console.log(json);
+        })
     }
 
     toggleEdit = () => {
@@ -50,7 +53,7 @@ export default class SingleTab extends React.Component<SingleProps, SingleTabSta
     toggleCreate = () => {
         this.setState({showCreate: !this.state.showCreate})
     }
-
+    
     render(){
         console.log(this.props.singleTab)
         return(
@@ -61,13 +64,18 @@ export default class SingleTab extends React.Component<SingleProps, SingleTabSta
                 </div>
                 <div>
                     {
-                        <div onClick={this.toggleEdit}>edit</div>
+                        localStorage.getItem("userId") === this.props.singleTab.userId ? 
+                        <>
+                        <div onClick={this.toggleEdit}>edit</div> 
+                        <div onClick={() => this.props.deleteTab(this.props.singleTab.id)}>delete</div>
+                        </>
+                        : <></>
                     }
                         {
                             this.state.showEdit ? 
                             <Dialog open={this.state.showEdit} onClose={this.toggleEdit} aria-labelledby="form-dialog-title">
                             <DialogContent>
-                                    <TabEdit sessionToken={this.props.sessionToken} tab={this.props.singleTab} />         
+                                    <TabEdit fetchTabs={this.props.fetchTabs} sessionToken={this.props.sessionToken} tab={this.props.singleTab} toggleEdit={this.toggleEdit}/>         
                             </DialogContent>
                             <DialogActions>
                                 <Button onClick={this.toggleEdit} color="primary">
@@ -77,14 +85,17 @@ export default class SingleTab extends React.Component<SingleProps, SingleTabSta
                             </Dialog> :
                             <></>
                         }
-                        <div onClick={() => this.props.deleteTab(this.props.singleTab.id)}>delete</div>
                     </div>
-                    <p onClick={this.toggleCreate}>Create New Comment</p>
+                    {
+                        this.props.sessionToken ? <p onClick={this.toggleCreate}>Create New Comment</p> :
+                        <></>
+                    }
+                    
                         {
                             this.state.showCreate ? 
                             <Dialog open={this.state.showCreate} onClose={this.toggleCreate} aria-labelledby="form-dialog-title">
                             <DialogContent>
-                                    <CommentCreate sessionToken={this.props.sessionToken} tabId={this.props.singleTab.id} />         
+                                    <CommentCreate toggleCreate={this.toggleCreate} sessionToken={this.props.sessionToken} tabId={this.props.singleTab.id} />         
                             </DialogContent>
                             <DialogActions>
                                 <Button onClick={this.toggleCreate} color="primary">

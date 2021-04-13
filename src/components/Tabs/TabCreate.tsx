@@ -15,7 +15,8 @@ export default class TabCreate extends React.Component<TabCreateProps, ITabs> {
             imgUrl: "",
             difficulty: "",
             likes: 0,
-            dislikes: 0
+            dislikes: 0,
+            userId: ""
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -45,6 +46,7 @@ export default class TabCreate extends React.Component<TabCreateProps, ITabs> {
         }).then((res) => res.json())
         .then((json) => {
             console.log(json);
+            window.location.reload();
         })
     }
 
