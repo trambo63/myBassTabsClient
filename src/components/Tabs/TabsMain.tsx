@@ -55,7 +55,7 @@ export default class TabsMain extends React.Component<TabsMainProps, TabsState> 
         }).then((res) => res.json())
         .then((json) => {
             console.log(json);
-            this.fetchTabs();
+            window.location.reload();
         })
     }
 
