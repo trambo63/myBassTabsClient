@@ -85,12 +85,12 @@ export default class TabCreate extends React.Component<TabCreateProps, ITabs> {
                 <h2>Create New Tab</h2>
                 <form onSubmit={this.handleSubmit}>
                 {/* <label htmlFor='Title'>Title:</label> */}
-                <Typography variant="h6">Title: </Typography>
+                <h4>Title: </h4>
                 <input type='text' id='title' name='title' value={this.state.title} onChange={this.handleChange} /> 
                 <br />
                 <br />
                 <FormControl >
-                    <Typography variant="h6">Difficulty: </Typography>
+                    <h4>Difficulty: </h4>
                     <Select value={this.state.difficulty} onChange={(e) => this.updateDifficulty(e)}>
                         <MenuItem value={'easy'}>Easy</MenuItem>
                         <MenuItem value={'medium'}>Medium</MenuItem>
@@ -99,7 +99,7 @@ export default class TabCreate extends React.Component<TabCreateProps, ITabs> {
                 </FormControl>
                 <br />
                 <br />
-                <Typography variant="h6">Tab: </Typography>
+                <h4>Tab: </h4>
                 <input type='file' id='imgUrl' name='imgUrl' onChange={this.fileOnChange} />
                 <br />
                 <br />

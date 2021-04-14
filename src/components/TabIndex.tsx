@@ -104,7 +104,7 @@ export default class TabIndex extends React.Component<{}, TabIndexState> {
                         }
                         {
                             this.state.showCreate ? 
-                            <Dialog open={this.state.showCreate} onClose={this.toggleCreate} aria-labelledby="form-dialog-title">
+                            <Dialog  open={this.state.showCreate} onClose={this.toggleCreate} aria-labelledby="form-dialog-title" className="dialogView">
                             <DialogContent>
                                     <TabCreate sessionToken={this.state.sessionToken} />         
                             </DialogContent>
@@ -133,7 +133,7 @@ export default class TabIndex extends React.Component<{}, TabIndexState> {
                 </div>
                     {
                         this.state.showAuth && this.state.sessionToken !== localStorage.getItem('token') ?
-                            <Dialog open={this.state.showAuth} onClose={this.toggleAuth} aria-labelledby="form-dialog-title">
+                            <Dialog open={this.state.showAuth} onClose={this.toggleAuth} aria-labelledby="form-dialog-title" className="dialogView">
                               <DialogContent>
                                     <Auth updateToken={this.updateToken} />         
                               </DialogContent>

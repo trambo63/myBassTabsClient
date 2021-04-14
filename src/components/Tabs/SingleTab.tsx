@@ -163,7 +163,7 @@ export default class SingleTab extends React.Component<SingleProps, SingleTabSta
                 <div >
                         {
                             this.state.showEdit ? 
-                            <Dialog open={this.state.showEdit} onClose={this.toggleEdit} aria-labelledby="form-dialog-title">
+                            <Dialog open={this.state.showEdit} onClose={this.toggleEdit} aria-labelledby="form-dialog-title" className="dialogView">
                             <DialogContent>
                                     <TabEdit fetchTabs={this.props.fetchTabs} sessionToken={this.props.sessionToken} tab={this.props.singleTab} toggleEdit={this.toggleEdit}/>         
                             </DialogContent>
@@ -179,7 +179,7 @@ export default class SingleTab extends React.Component<SingleProps, SingleTabSta
                     
                         {
                             this.state.showCreate ? 
-                            <Dialog open={this.state.showCreate} onClose={this.toggleCreate} aria-labelledby="form-dialog-title">
+                            <Dialog open={this.state.showCreate} onClose={this.toggleCreate} aria-labelledby="form-dialog-title" className="dialogView">
                             <DialogContent>
                                     <CommentCreate fetchComments={this.fetchComments} toggleCreate={this.toggleCreate} sessionToken={this.props.sessionToken} tabId={this.props.singleTab.id} />         
                             </DialogContent>

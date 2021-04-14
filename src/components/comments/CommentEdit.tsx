@@ -85,7 +85,7 @@ export default class TabCreate extends React.Component<CommentEditProps, Comment
                 {
                     this.state.showEdit ? 
                     <div>
-                    <Dialog open={this.state.showEdit} onClose={this.toggleEdit} aria-labelledby="form-dialog-title">
+                    <Dialog open={this.state.showEdit} onClose={this.toggleEdit} aria-labelledby="form-dialog-title" className="dialogView">
                     <DialogContent>
                         <h2>Edit Comment</h2>
                         <form onSubmit={(e) => this.handleSubmit(e)}>

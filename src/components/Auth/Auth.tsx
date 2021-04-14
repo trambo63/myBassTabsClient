@@ -1,6 +1,7 @@
 import React from 'react';
 import SignIn from './SignIn'
 import SignUp from './SignUp'
+import Button from '@material-ui/core/Button';
 
 
 export type AuthProps = {
@@ -29,7 +30,9 @@ export default class Auth extends React.Component<AuthProps, State> {
         return(
             <div>
                 {form}
-                <p onClick={this.toggle}>{text}</p>
+                <br/>
+                <Button onClick={this.toggle} color="primary">{text}</Button>
+                {/* <p onClick={this.toggle}>{text}</p> */}
             </div>
         )
     }

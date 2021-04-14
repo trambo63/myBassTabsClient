@@ -65,7 +65,7 @@ export default class DisplayTab extends React.Component<DisplayProps, DisplayTab
                                     </div>
                                     <>
                                         {
-                                            localStorage.getItem('role') == "admin" ? <div onClick={() => this.props.deleteTab(tab.id)}>Delete</div> : <></> 
+                                            localStorage.getItem('role') == "admin" ? <div className="adminDelete" onClick={() => this.props.deleteTab(tab.id)}>Delete</div> : <></> 
                                         }
                                     </>
                                 </ListGroupItem>

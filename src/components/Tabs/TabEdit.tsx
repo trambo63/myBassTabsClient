@@ -47,6 +47,7 @@ export default class TabCreate extends React.Component<TabEditProps, ITabs> {
         .then((json) => {
             console.log(json);
             this.props.toggleEdit()
+            window.location.reload();
         })
     }
 
@@ -79,19 +80,19 @@ export default class TabCreate extends React.Component<TabEditProps, ITabs> {
             <div>
                 <h2>Edit Tab</h2>
                 <form onSubmit={(e) => this.handleSubmit(e)}>
-                <Typography variant="h6">Title: </Typography>
+                <h4>Title: </h4>
                 <input type='text' id='title' name='title' value={this.state.title} onChange={this.handleChange} /> 
                 <br />
                 <br />
                 <FormControl >
-                    <Typography variant="h6">Difficulty: </Typography>
+                    <h4>Difficulty: </h4>
                     <Select value={this.state.difficulty} onChange={(e) => this.updateDifficulty(e)}>
                         <MenuItem value={'easy'}>Easy</MenuItem>
                         <MenuItem value={'medium'}>Medium</MenuItem>
                         <MenuItem value={'hard'}>Hard</MenuItem>
                     </Select>
                 </FormControl>                
-                <Typography variant="h6">Tab: </Typography>
+                <h4>Tab: </h4>
                 <input type='file' id='imgUrl' name='imgUrl' onChange={this.fileOnChange} />
                 <br />
                 <br />

@@ -124,7 +124,7 @@
 
 .singleTab{
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
   padding: 2em;
   background: rgb(209, 209, 209);
 }
@@ -154,6 +154,18 @@
   cursor: pointer;
 }
 
+.adminDelete{
+  margin-left: 10px;
+}
+
+.adminDelete:hover {
+  cursor: pointer;
+}
+
+.dialogView {
+  font-family: 'Architects Daughter', cursive;
+} 
+
 #controls {
   font-size: 20px;
   font-family: 'Permanent Marker', cursive;
@@ -170,4 +182,40 @@
 
 .commentControlls:hover {
   cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .navbar{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 90px;
+    background-color: black;
+    padding: 0 20px;
+  }
+}
+
+@media screen and (max-width: 577px) {
+  .navRight h4{
+    font-size: 20px;
+  }
+
+  .navRight input {
+    width: 130px;
+  }
+
+  .navLogo{
+    color: rgb(209, 209, 209);
+    font-family: 'Permanent Marker', cursive;
+  }
+  .navbar{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 120px;
+    background-color: black;
+    padding: 0 20px;
+  }
 }
