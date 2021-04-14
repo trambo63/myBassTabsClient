@@ -90,20 +90,17 @@ export default class TabIndex extends React.Component<{}, TabIndexState> {
 
     render(){
         console.log(this.state.searchTab)
-        const protectedViews = this.state.sessionToken === localStorage.getItem('token') ? <></> : <p onClick={this.toggleAuth}>Login</p>
+        const protectedViews = this.state.sessionToken === localStorage.getItem('token') ? <></> : <h4 onClick={this.toggleAuth}>Login</h4>
         return(
             <div className="tabIndexMain">
                 <div className="navbar">
-                    <span>My Bass Tabs</span>
-                    <form onSubmit={this.handleSubmit}>
-                        <div className="navSearch">
-                            <input type="text" id="searchTerms" name="searchTerm" value={this.state.searchTerm} onChange={this.handleChange} />
-                            <button type="submit">Search</button>
-                        </div>
-                    </form>
+                    <div className="navLogo" onClick={() => window.location.reload()}>
+                        <h2><span>My</span> BassTabs</h2>
+                    </div>
+                    <div className="navRight">
                     <div className="signInControlls">
                         {
-                            this.state.sessionToken ? <p onClick={this.toggleCreate}>Create New</p> : <></>
+                            this.state.sessionToken ? <h4 onClick={this.toggleCreate}>Create Tab</h4> : <></>
                         }
                         {
                             this.state.showCreate ? 
@@ -120,11 +117,18 @@ export default class TabIndex extends React.Component<{}, TabIndexState> {
                             <></>
                         }
                     </div>
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="navSearch">
+                            <input type="text" id="searchTerms" name="searchTerm" value={this.state.searchTerm} onChange={this.handleChange} />
+                            <button type="submit">Search</button>
+                        </div>
+                    </form>
                     <div className="signInControlls">
                         {protectedViews}
                         {
-                            this.state.sessionToken === localStorage.getItem('token') ? <p color="primary" onClick={this.clearToken}>Logout</p> : <></>
+                            this.state.sessionToken === localStorage.getItem('token') ? <h4 color="primary" onClick={this.clearToken}>Logout</h4> : <></>
                         }
+                    </div>
                     </div>
                 </div>
                     {
@@ -141,7 +145,9 @@ export default class TabIndex extends React.Component<{}, TabIndexState> {
                             </Dialog>
                         : <></>
                     }
-                <TabsMain toggleSearchTab={this.toggleSearchTab} sessionToken={this.state.sessionToken} searchTerm={this.state.searchTerm} searchTab={this.state.searchTab} />
+                <div className='tabsView'>
+                    <TabsMain toggleSearchTab={this.toggleSearchTab} sessionToken={this.state.sessionToken} searchTerm={this.state.searchTerm} searchTab={this.state.searchTab} />
+                </div>
             </div>
         )
     }

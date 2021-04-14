@@ -1,14 +1,49 @@
 .App {
   margin: 0;
+
 }
 
-.tabIndexMain{
+.displayMain{
+  display: flex;
 }
 
 #displayTabs{
-  /* background: black; */
-
+  background: rgb(209, 209, 209);
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
 }
+
+.tabsView {
+  display: flex;
+}
+
+.featuredTab{
+  color: black;
+  display: flex;
+  width: 500px;
+  height: 500px;
+  background: white;
+}
+
+#tabSingle{
+  display: flex;
+  justify-content: space-between;
+  width: 1000px;
+}
+
+.tabSingle_likes{
+  display: flex;
+}
+
+.tabSingle_likes p {
+  margin-left: 10px;
+}
+
+
 
 #tab{
   /* background: black; */
@@ -17,6 +52,12 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  max-width: 1000px;
+  font-family: 'Architects Daughter', cursive;
+}
+
+#tab:hover {
+  cursor: pointer;
 }
 
 #commentsDispaly{
@@ -25,6 +66,7 @@
 #commentsDispalyList{
   display: flex;
   justify-content: space-between;
+
 }
 
 .navbar{
@@ -33,22 +75,99 @@
   flex-direction: row;
   justify-content: space-between;
   height: 50px;
-  background-color: rgb(41, 78, 180);
+  background-color: black;
   padding: 0 20px;
 }
 
+.navRight{
+  display: flex;
+  flex-direction: row;
+  /* font-family: 'Yanone Kaffeesatz', sans-serif; */
+  font-family: 'Permanent Marker', cursive;
+}
+
+.navRight h4{
+  margin-right: 20px;
+}
+
+.navRight form {
+  margin-right: 20px;
+}
+
+.navLogo{
+  color: rgb(209, 209, 209);
+  font-family: 'Permanent Marker', cursive;
+}
+
+.navLogo:hover {
+  cursor: pointer;
+}
+
 .navbar span{
-  color: rgb(233, 218, 248);
+  color: white;
   font-weight: bold;
 }
 
 .signInControlls{
-  color: rgb(233, 218, 248);
+  color: white;
   font-weight: bold;
   display: flex;
+}
+
+.signInControlls:hover {
+  cursor: pointer;
 }
 
 .signInControlls p {
   margin-left: 10px;
 }
 
+.singleTab{
+  width: 100%;
+  height: 100vh;
+  padding: 2em;
+  background: rgb(209, 209, 209);
+}
+
+.singleTab_likes{
+  display: flex;
+}
+
+.singleTab_likes:hover {
+  cursor: pointer;
+}
+
+.singleTab_likes p {
+  margin-right: 15px;
+}
+
+.singleTab img {
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+
+.singleTab_controls {
+  display: flex;
+}
+
+.singleTab_controls:hover {
+  cursor: pointer;
+}
+
+#controls {
+  font-size: 20px;
+  font-family: 'Permanent Marker', cursive;
+  margin-left: 15px;
+}
+
+#singeTab_title{
+  font-family: 'Permanent Marker', cursive;
+}
+
+.displayComments{
+  font-family: 'Architects Daughter', cursive;
+}
+
+.commentControlls:hover {
+  cursor: pointer;
+}

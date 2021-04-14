@@ -102,7 +102,7 @@ export default class TabCreate extends React.Component<CommentEditProps, Comment
                         </Button>
                     </DialogActions>
                     </Dialog> 
-                    </div> : <div onClick={this.toggleEdit}>edit</div>
+                    </div> : <div onClick={this.toggleEdit}>Edit</div>
                 }
             </>
         )

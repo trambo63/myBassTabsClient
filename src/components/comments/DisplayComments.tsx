@@ -4,20 +4,18 @@ import {
     ListGroup, ListGroupItem
   } from 'reactstrap';
   import 'bootstrap/dist/css/bootstrap.min.css';
-  import {IUser} from '../Interfaces'
-
 import CommentEdit from './CommentEdit'
-import { AccessControl } from 'accesscontrol';
 import APIURL from '../../helpers/environment';
 
 
 export type DisplayProps = {
     tabId: string;
     sessionToken: string | null;
+    fetchComments: () => void;
+    comments: IComments[],
 }
 
 export type DisplayState = {
-    comments: IComments[],
 }
 
 export default class DisplayTabs extends React.Component<DisplayProps, DisplayState> {
@@ -26,28 +24,24 @@ export default class DisplayTabs extends React.Component<DisplayProps, DisplaySt
         this.state ={
             comments: []
         }
-        this.fetchComments = this.fetchComments.bind(this);
+        // this.fetchComments = this.fetchComments.bind(this);
     }
-    componentDidMount() {
-            this.fetchComments()
-    }
-    fetchComments = () => {
-        let url: string = `${APIURL}/comment/${this.props.tabId}`
-        fetch(url, {
-            method: 'GET',
-            headers: new Headers({
-                'Content-Type': 'application/json'
-            })
-        }).then((res) => res.json())
-        .then((json) => {
-            console.log(json);
-            this.setState({comments: json.comment})
-        })
-    }
-
-    //add eventhandler for createComment with req body
-
-
+    // componentDidMount() {
+    //         this.props.fetchComments()
+    // }
+    // fetchComments = () => {
+    //     let url: string = `${APIURL}/comment/${this.props.tabId}`
+    //     fetch(url, {
+    //         method: 'GET',
+    //         headers: new Headers({
+    //             'Content-Type': 'application/json'
+    //         })
+    //     }).then((res) => res.json())
+    //     .then((json) => {
+    //         console.log(json);
+    //         this.setState({comments: json.comment})
+    //     })
+    // }
 
     deleteComment = (id: string, sessionToken: string | null) => {
         console.log(this.props.sessionToken);
@@ -60,7 +54,7 @@ export default class DisplayTabs extends React.Component<DisplayProps, DisplaySt
             })
         }).then((res) => res.json())
         .then((json) => console.log(json))
-        .then(this.fetchComments)
+        .then(this.props.fetchComments)
     }
 
     componentDidUpdate = () => {
@@ -72,20 +66,20 @@ export default class DisplayTabs extends React.Component<DisplayProps, DisplaySt
         return(
             <div>
                 {
-                    this.state.comments.map((comment, index) => {
+                    this.props.comments.map((comment, index) => {
                         return(
-                            <div>
+                            <div className="displayComments">
                                 <ListGroup id={"commentsDispaly"}>
                                     <ListGroupItem id={"commentsDispalyList"} key={index}>
                                         <div>
                                             <div>{comment.comment}</div>
                                         </div>
-                                        <div>
+                                        <div className="commentControlls" >
                                         {
                                             localStorage.getItem("userId") === comment.userId ? 
                                             <>
+                                                <CommentEdit sessionToken={this.props.sessionToken} comment={comment.comment} commentId={comment.id} tabId={comment.tabId}  fetchComments={this.props.fetchComments}/>         
                                                 <div onClick={() => this.deleteComment(comment.id, this.props.sessionToken)}>Delete</div>
-                                                <CommentEdit sessionToken={this.props.sessionToken} comment={comment.comment} commentId={comment.id} tabId={comment.tabId}  fetchComments={this.fetchComments}/>         
                                             </> : <></>
                                         }
                                         </div>

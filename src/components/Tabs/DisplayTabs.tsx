@@ -5,7 +5,8 @@ import {
 } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import APIURL from '../../helpers/environment'
-
+import ThumbUpIcon from '@material-ui/icons/ThumbUpAlt';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 
 export type DisplayProps = {
     tabs: ITabs[]
@@ -50,9 +51,17 @@ export default class DisplayTab extends React.Component<DisplayProps, DisplayTab
                         <div id='tab'>
                             <ListGroup id='tab'>
                                 <ListGroupItem id='tab' key={index}>
-                                    <div onClick={() => {this.props.toggleSingleTab(); this.props.setSingleTab(tab)}}>
-                                        <div>Title: {tab.title} Difficulty: {tab.difficulty}</div>
-                                        <div>Likes: {tab.likes} Dislikes: {tab.dislikes}</div>
+                                    <div id='tabSingle' onClick={() => {this.props.toggleSingleTab(); this.props.setSingleTab(tab)}}>
+                                        <div>
+                                            <h4>{tab.title}</h4>
+                                            <div className="tabSingle_likes">
+                                                <p><ThumbUpIcon /> {tab.likes}</p>
+                                                <p><ThumbDownIcon /> {tab.dislikes}</p>  
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p>{tab.difficulty}</p>
+                                        </div>
                                     </div>
                                     <>
                                         {

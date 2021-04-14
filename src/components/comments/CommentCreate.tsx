@@ -1,10 +1,13 @@
 import React, { SyntheticEvent } from 'react';
 import {IComments} from '../Interfaces'
+import APIURL from '../../helpers/environment';
+
 
 export type CommentCreateProps = {
     sessionToken: string | null
     tabId: string
     toggleCreate: () => void;
+    fetchComments: () => void;
 }
 
 export default class CommentCreate extends React.Component<CommentCreateProps, IComments> {
@@ -23,7 +26,7 @@ export default class CommentCreate extends React.Component<CommentCreateProps, I
     handleSubmit(e: SyntheticEvent) {
         e.preventDefault();
         console.log(this.state.comment)
-        let url: string = 'http://localhost:4200/comment/postComment'
+        let url: string = `${APIURL}/comment/postComment`
         let reqBody = {
             comment: {
                 comment: `${this.state.comment}`,
@@ -41,6 +44,7 @@ export default class CommentCreate extends React.Component<CommentCreateProps, I
         .then((json) => {
             console.log(json);
             this.props.toggleCreate()
+            this.props.fetchComments()
         })
     }
 

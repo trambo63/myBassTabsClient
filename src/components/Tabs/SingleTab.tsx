@@ -8,6 +8,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import TabEdit from './TabEdit';
 import CommentCreate from '../comments/CommentCreate';
 import APIURL from '../../helpers/environment';
+import {IComments} from '../Interfaces'
+import ThumbUpIcon from '@material-ui/icons/ThumbUpAlt';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 
 interface SingleProps{
     singleTab: ITabs;
@@ -23,6 +26,7 @@ export type SingleTabState = {
     dislikes: number;
     clickLimitLike: number;
     clickLimitDislike: number;
+    comments: IComments[],
 }
 
 export default class SingleTab extends React.Component<SingleProps, SingleTabState> {
@@ -34,25 +38,29 @@ export default class SingleTab extends React.Component<SingleProps, SingleTabSta
             likes: this.props.singleTab.likes,
             dislikes: this.props.singleTab.dislikes,
             clickLimitLike: 0,
-            clickLimitDislike: 0
+            clickLimitDislike: 0,
+            comments: []
         }
         this.toggleCreate = this.toggleCreate.bind(this);
         this.updateLike = this.updateLike.bind(this);
+        this.fetchComments = this.fetchComments.bind(this);
     }
 
-    createCommet = () => {
-        console.log(this.props.sessionToken);
-        let createUrl: string = `${APIURL}/comment/postComment`;
-        fetch(createUrl, {
-            method: "PUT",
+    componentDidMount = () => {
+        this.fetchComments()
+    }
+
+    fetchComments = () => {
+        let url: string = `${APIURL}/comment/${this.props.singleTab.id}`
+        fetch(url, {
+            method: 'GET',
             headers: new Headers({
-                'Content-Type': 'application/json',
-                'Authorization': `${this.props.sessionToken}`
+                'Content-Type': 'application/json'
             })
         }).then((res) => res.json())
         .then((json) => {
             console.log(json);
-            this.props.fetchTabs()
+            this.setState({comments: json.comment})
         })
     }
 
@@ -125,24 +133,34 @@ export default class SingleTab extends React.Component<SingleProps, SingleTabSta
     render(){
         console.log(this.props.singleTab)
         return(
-            <div>
-                <div className="singleTab">
-                    <h2>{this.props.singleTab.title}</h2>
-                    <div>
-                        <p onClick={this.updateLike}>Likes: {this.state.likes}</p>
-                        <p onClick={this.updateDislike}>Dislikes: {this.state.dislikes}</p>
-                    </div>
-                    <img src={`${APIURL}/static/${this.props.singleTab.imgUrl}`} />
-                </div>
+            <div className="singleTab">
                 <div>
-                    {
-                        localStorage.getItem("userId") === this.props.singleTab.userId ? 
-                        <>
-                        <div onClick={this.toggleEdit}>edit</div> 
-                        <div onClick={() => this.props.deleteTab(this.props.singleTab.id)}>delete</div>
-                        </>
-                        : <></>
-                    }
+                    <h2 id="singeTab_title">{this.props.singleTab.title}</h2>
+                    <img src={`${APIURL}/static/${this.props.singleTab.imgUrl}`} />
+                    <div className="singleTab_controls">
+                        {
+                            this.props.sessionToken ? 
+                            <div className="singleTab_likes">
+                                <p id="controls" onClick={this.updateLike}><ThumbUpIcon /> {this.state.likes}</p>
+                                <p  id="controls" onClick={this.updateDislike}><ThumbDownIcon />{this.state.dislikes}</p>
+                            </div> :
+                            <></>
+                        }
+                        {
+                            localStorage.getItem("userId") === this.props.singleTab.userId ? 
+                            <>
+                            <p id="controls" onClick={this.toggleEdit}>edit</p> 
+                            <p id="controls" onClick={() => this.props.deleteTab(this.props.singleTab.id)}>delete</p>
+                            </>
+                            : <></>
+                        }
+                        {
+                            this.props.sessionToken ? <p id="controls" onClick={this.toggleCreate}>Create New Comment</p> :
+                            <></>
+                        }
+                    </div>
+                </div>
+                <div >
                         {
                             this.state.showEdit ? 
                             <Dialog open={this.state.showEdit} onClose={this.toggleEdit} aria-labelledby="form-dialog-title">
@@ -158,16 +176,12 @@ export default class SingleTab extends React.Component<SingleProps, SingleTabSta
                             <></>
                         }
                     </div>
-                    {
-                        this.props.sessionToken ? <p onClick={this.toggleCreate}>Create New Comment</p> :
-                        <></>
-                    }
                     
                         {
                             this.state.showCreate ? 
                             <Dialog open={this.state.showCreate} onClose={this.toggleCreate} aria-labelledby="form-dialog-title">
                             <DialogContent>
-                                    <CommentCreate toggleCreate={this.toggleCreate} sessionToken={this.props.sessionToken} tabId={this.props.singleTab.id} />         
+                                    <CommentCreate fetchComments={this.fetchComments} toggleCreate={this.toggleCreate} sessionToken={this.props.sessionToken} tabId={this.props.singleTab.id} />         
                             </DialogContent>
                             <DialogActions>
                                 <Button onClick={this.toggleCreate} color="primary">
@@ -178,7 +192,7 @@ export default class SingleTab extends React.Component<SingleProps, SingleTabSta
                             <></>
                         }
                 <div>
-                    <DisplayComment sessionToken={this.props.sessionToken} tabId={this.props.singleTab.id} />
+                    <DisplayComment comments={this.state.comments} fetchComments={this.fetchComments} sessionToken={this.props.sessionToken} tabId={this.props.singleTab.id} />
                 </div>
             </div>
 
