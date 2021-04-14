@@ -1,6 +1,7 @@
-import React, { SyntheticEvent } from 'react';
+import React, { ChangeEvent, SyntheticEvent } from 'react';
 import {ITabs} from '../Interfaces'
 import APIURL from '../../helpers/environment'
+import { Select, MenuItem, FormControl, InputLabel, makeStyles, Typography} from '@material-ui/core'
 
 export type TabCreateProps = {
     sessionToken: string | null
@@ -68,24 +69,39 @@ export default class TabCreate extends React.Component<TabCreateProps, ITabs> {
         }
         this.setState({imgUrl: e.target.files[0]})
     }
-    
+
+    // handleDropdown = (e: React.ChangeEvent<{value: string;}>) => {
+    //         this.setState({difficulty: e.target.value})
+    // }
+
+    updateDifficulty = (event: React.ChangeEvent<{ value: unknown }>) => {
+        this.setState({difficulty: event.target.value as string})
+    }
+
     render() {
         console.log(this.state.imgUrl);
         return(
             <div>
                 <h2>Create New Tab</h2>
                 <form onSubmit={this.handleSubmit}>
-                <label htmlFor='Title'>Title:</label>
-                <br />
+                {/* <label htmlFor='Title'>Title:</label> */}
+                <Typography variant="h6">Title: </Typography>
                 <input type='text' id='title' name='title' value={this.state.title} onChange={this.handleChange} /> 
                 <br />
-                <label htmlFor='difficulty'>difficulty:</label>
                 <br />
-                <input type='text' id='difficulty' name='difficulty' value={this.state.difficulty} onChange={this.handleChange} /> 
+                <FormControl >
+                    <Typography variant="h6">Difficulty: </Typography>
+                    <Select value={this.state.difficulty} onChange={(e) => this.updateDifficulty(e)}>
+                        <MenuItem value={'easy'}>Easy</MenuItem>
+                        <MenuItem value={'medium'}>Medium</MenuItem>
+                        <MenuItem value={'hard'}>Hard</MenuItem>
+                    </Select>
+                </FormControl>
                 <br />
-                <label htmlFor="imgUrl">Tab:</label>
                 <br />
+                <Typography variant="h6">Tab: </Typography>
                 <input type='file' id='imgUrl' name='imgUrl' onChange={this.fileOnChange} />
+                <br />
                 <br />
                 <button type='submit'>Submit</button>
                 </form>

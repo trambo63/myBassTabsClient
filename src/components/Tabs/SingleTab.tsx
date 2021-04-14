@@ -19,6 +19,10 @@ interface SingleProps{
 export type SingleTabState = {
     showEdit: boolean;
     showCreate: boolean;
+    likes: number;
+    dislikes: number;
+    clickLimitLike: number;
+    clickLimitDislike: number;
 }
 
 export default class SingleTab extends React.Component<SingleProps, SingleTabState> {
@@ -27,8 +31,13 @@ export default class SingleTab extends React.Component<SingleProps, SingleTabSta
         this.state = {
             showEdit: false,
             showCreate: false,
+            likes: this.props.singleTab.likes,
+            dislikes: this.props.singleTab.dislikes,
+            clickLimitLike: 0,
+            clickLimitDislike: 0
         }
         this.toggleCreate = this.toggleCreate.bind(this);
+        this.updateLike = this.updateLike.bind(this);
     }
 
     createCommet = () => {
@@ -43,6 +52,7 @@ export default class SingleTab extends React.Component<SingleProps, SingleTabSta
         }).then((res) => res.json())
         .then((json) => {
             console.log(json);
+            this.props.fetchTabs()
         })
     }
 
@@ -53,6 +63,64 @@ export default class SingleTab extends React.Component<SingleProps, SingleTabSta
     toggleCreate = () => {
         this.setState({showCreate: !this.state.showCreate})
     }
+
+    updateLike = () => {
+        if(this.state.clickLimitLike > 0){
+            return
+        } else{
+            this.setState({
+                clickLimitLike: 1
+            })
+            let url: string = `${APIURL}/tab/like/${this.props.singleTab.id}`
+            let newLike: number = this.props.singleTab.likes + 1;
+            let reqBody = {
+                likes: newLike
+            }
+            fetch(url, {
+                method: 'PUT',
+                body: JSON.stringify(reqBody),
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                    'Authorization': `${this.props.sessionToken}`
+                })
+            }).then((res) => res.json())
+            .then((json) => {
+                console.log(json);
+                this.setState({
+                    likes: this.state.likes + 1
+                })
+            })
+        }
+    }
+
+    updateDislike = () => {
+        if(this.state.clickLimitDislike > 0){
+            return
+        } else{
+            this.setState({
+                clickLimitDislike: 1
+            })
+            let url: string = `${APIURL}/tab/dislike/${this.props.singleTab.id}`
+            let newDisLike: number = this.props.singleTab.dislikes + 1;
+            let reqBody = {
+                dislikes: newDisLike
+            }
+            fetch(url, {
+                method: 'PUT',
+                body: JSON.stringify(reqBody),
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                    'Authorization': `${this.props.sessionToken}`
+                })
+            }).then((res) => res.json())
+            .then((json) => {
+                console.log(json);
+                this.setState({
+                    dislikes: this.state.dislikes + 1
+                })
+            })
+        }
+    }
     
     render(){
         console.log(this.props.singleTab)
@@ -60,6 +128,10 @@ export default class SingleTab extends React.Component<SingleProps, SingleTabSta
             <div>
                 <div className="singleTab">
                     <h2>{this.props.singleTab.title}</h2>
+                    <div>
+                        <p onClick={this.updateLike}>Likes: {this.state.likes}</p>
+                        <p onClick={this.updateDislike}>Dislikes: {this.state.dislikes}</p>
+                    </div>
                     <img src={`${APIURL}/static/${this.props.singleTab.imgUrl}`} />
                 </div>
                 <div>

@@ -1,6 +1,8 @@
 import React, { SyntheticEvent } from 'react';
 import {ITabs} from '../Interfaces'
 import APIURL from '../../helpers/environment'
+import { Select, MenuItem, FormControl, InputLabel, makeStyles, Typography} from '@material-ui/core'
+
 
 export type TabEditProps = {
     sessionToken: string | null,
@@ -67,23 +69,31 @@ export default class TabCreate extends React.Component<TabEditProps, ITabs> {
         this.setState({imgUrl: e.target.files[0]})
     }
 
+    updateDifficulty = (event: React.ChangeEvent<{ value: unknown }>) => {
+        this.setState({difficulty: event.target.value as string})
+    }
+
+
     render() {
         return(
             <div>
                 <h2>Edit Tab</h2>
-                <p>{this.state.likes} | {this.state.dislikes}</p>
                 <form onSubmit={(e) => this.handleSubmit(e)}>
-                <label htmlFor='Title'>Title:</label>
-                <br />
+                <Typography variant="h6">Title: </Typography>
                 <input type='text' id='title' name='title' value={this.state.title} onChange={this.handleChange} /> 
                 <br />
-                <label htmlFor='difficulty'>difficulty:</label>
                 <br />
-                <input type='text' id='difficulty' name='difficulty' value={this.state.difficulty} onChange={this.handleChange} /> 
-                <br />
-                <label htmlFor="imgUrl">Tab:</label>
-                <br />
+                <FormControl >
+                    <Typography variant="h6">Difficulty: </Typography>
+                    <Select value={this.state.difficulty} onChange={(e) => this.updateDifficulty(e)}>
+                        <MenuItem value={'easy'}>Easy</MenuItem>
+                        <MenuItem value={'medium'}>Medium</MenuItem>
+                        <MenuItem value={'hard'}>Hard</MenuItem>
+                    </Select>
+                </FormControl>                
+                <Typography variant="h6">Tab: </Typography>
                 <input type='file' id='imgUrl' name='imgUrl' onChange={this.fileOnChange} />
+                <br />
                 <br />
                 <button type='submit'>Submit</button>
                 </form>
